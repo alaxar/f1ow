@@ -39,11 +39,12 @@ void ExtractIp(unsigned char* buffer) {
     network_header = (struct iphdr*)(buffer+sizeof(struct ethhdr));
     saddr.s_addr = network_header->saddr;
     daddr.s_addr = network_header->daddr;
-    proto = getprotobynumber(network_header->protocol);
 
     printf("..:: IP Header ::..\n");
     printf("Total length of packet: %hu\n", network_header->tot_len);
-    printf("\033[0;32mProtocol: %s\033[0m\n", proto->p_name);   
+    proto = getprotobynumber(network_header->protocol);
+    if(proto != NULL)
+        printf("\033[0;32mProtocol: %s\033[0m\n", proto->p_name);   
     printf("\033[0;32mSource IP: \t\t\t%s\033[0m\n", inet_ntoa(saddr));
     printf("\033[0;32mDestination IP: \t\t%s\033[0m\n\n", inet_ntoa(daddr));
 }
